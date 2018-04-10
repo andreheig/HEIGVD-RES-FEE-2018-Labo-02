@@ -5,6 +5,8 @@ import ch.heigvd.res.labs.roulette.data.Student;
 import ch.heigvd.res.labs.roulette.data.StudentsList;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,12 +18,24 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
 
   @Override
   public void clearDataStore() throws IOException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    responseBuffer.reset();
+    os.write((RouletteV2Protocol.CMD_CLEAR + '\n').getBytes());
+    os.flush();
+    newBytes = is.read(buffer);
+    responseBuffer.write(buffer, 0, newBytes);
+    System.out.print(responseBuffer);
   }
 
   @Override
   public List<Student> listStudents() throws IOException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    responseBuffer.reset();
+    os.write((RouletteV2Protocol.CMD_LIST + '\n').getBytes());
+    os.flush();
+    newBytes = is.read(buffer);
+    responseBuffer.write(buffer, 0, newBytes);
+    System.out.print(responseBuffer);
+    StudentsList list = JsonObjectMapper.parseJson(responseBuffer.toString(), StudentsList.class);
+    return list.getStudents();
   }
   
 }

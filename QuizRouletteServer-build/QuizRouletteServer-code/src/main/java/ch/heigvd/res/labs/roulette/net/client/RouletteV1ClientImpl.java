@@ -23,12 +23,12 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
 
   private static final Logger LOG = Logger.getLogger(RouletteV1ClientImpl.class.getName());
   private Socket client = null;
-  private OutputStream os = null;
-  private InputStream is = null;
+  protected OutputStream os = null;
+  protected InputStream is = null;
   private boolean connected = false;
-  private ByteArrayOutputStream responseBuffer;
-  private byte[] buffer;
-  private int newBytes;
+  protected ByteArrayOutputStream responseBuffer;
+  protected byte[] buffer;
+  protected int newBytes;
 
   final static int BUFFER_SIZE = 1024;
 
