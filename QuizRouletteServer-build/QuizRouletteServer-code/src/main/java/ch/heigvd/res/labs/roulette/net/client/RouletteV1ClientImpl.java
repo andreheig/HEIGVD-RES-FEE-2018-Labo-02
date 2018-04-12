@@ -81,12 +81,12 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
       responseBuffer.write(buffer, 0, newBytes);
       response = "";
       response = responseBuffer.toString().replace("\n", "").replace("\r", "");
-      if(!response.equals(RouletteV1Protocol.RESPONSE_LOAD_DONE)){
+      /*if(!response.equals(RouletteV1Protocol.RESPONSE_LOAD_DONE)){
           throw new IOException();
       }
-      else{
+      else{*/
           System.out.println(response);
-      }
+      //}
     }
     else{
       throw new IOException();

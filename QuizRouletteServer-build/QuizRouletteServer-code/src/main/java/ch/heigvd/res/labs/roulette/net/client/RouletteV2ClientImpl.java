@@ -33,9 +33,16 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
     os.flush();
     newBytes = is.read(buffer);
     responseBuffer.write(buffer, 0, newBytes);
-    System.out.print(responseBuffer);
-    StudentsList list = JsonObjectMapper.parseJson(responseBuffer.toString(), StudentsList.class);
+    System.out.print( "serveur response: " + responseBuffer);
+    String response = responseBuffer.toString().replace("\n", "").replace("\r", "");
+    StudentsList list = JsonObjectMapper.parseJson(response, StudentsList.class);
+    System.out.println("Liste retourné : " + list.getStudents());
     return list.getStudents();
+  }
+
+  @Override
+  public String getProtocolVersion() throws IOException {
+    return RouletteV2Protocol.VERSION;
   }
   
 }
