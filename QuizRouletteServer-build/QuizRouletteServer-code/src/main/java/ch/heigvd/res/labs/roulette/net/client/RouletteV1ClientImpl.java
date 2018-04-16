@@ -61,6 +61,9 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
   @Override
   public void loadStudent(String fullname) throws IOException {
     responseBuffer.reset();
+    if(fullname.length() == 0 || (fullname.replace(" ", "").length() == 0)) {
+      return;
+    }
       os.write((RouletteV1Protocol.CMD_LOAD + '\n').getBytes());
       os.flush();
       newBytes = is.read(buffer);
@@ -72,21 +75,22 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
      * On test que le serveur est prêt à reçevoir des noms
      */
     if(response.equalsIgnoreCase(RouletteV1Protocol.RESPONSE_LOAD_START)) {
-      os.write((fullname + '\n').getBytes());
-      os.flush();
-      os.write((RouletteV1Protocol.CMD_LOAD_ENDOFDATA_MARKER + '\n').getBytes());
-      os.flush();
-      newBytes = is.read(buffer);
-      responseBuffer.reset();
-      responseBuffer.write(buffer, 0, newBytes);
-      response = "";
-      response = responseBuffer.toString().replace("\n", "").replace("\r", "");
+        os.write((fullname + '\n').getBytes());
+        os.flush();
+        os.write((RouletteV1Protocol.CMD_LOAD_ENDOFDATA_MARKER + '\n').getBytes());
+        os.flush();
+        newBytes = is.read(buffer);
+        responseBuffer.reset();
+        responseBuffer.write(buffer, 0, newBytes);
+        response = "";
+        response = responseBuffer.toString().replace("\n", "").replace("\r", "");
       /*if(!response.equals(RouletteV1Protocol.RESPONSE_LOAD_DONE)){
           throw new IOException();
       }
       else{*/
-          System.out.println(response);
-      //}
+        System.out.println(response);
+        //}
+
     }
     else{
       throw new IOException();
