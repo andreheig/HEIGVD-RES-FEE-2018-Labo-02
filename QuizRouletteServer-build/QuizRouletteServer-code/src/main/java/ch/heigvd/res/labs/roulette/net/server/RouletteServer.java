@@ -80,12 +80,19 @@ public class RouletteServer {
    * ephemeral port
    */
   public RouletteServer(String protocolVersion) {
-    this.listenPort = -1;
+
+    switch (protocolVersion) {
+      case RouletteV1Protocol.VERSION:
+        this.listenPort = RouletteV1Protocol.DEFAULT_PORT;
+      case RouletteV2Protocol.VERSION:
+        this.listenPort = RouletteV2Protocol.DEFAULT_PORT;
+    }
     this.protocolVersion = protocolVersion;
   }
 
   public void startServer() throws IOException {
     if (serverSocket == null || serverSocket.isBound() == false) {
+
       if (listenPort == -1) {
         bindOnEphemeralPort();
       } else {
