@@ -1,5 +1,6 @@
 package ch.heigvd.res.labs.roulette.net.client;
 
+import ch.heigvd.res.labs.roulette.data.EmptyStoreException;
 import ch.heigvd.res.labs.roulette.data.JsonObjectMapper;
 import ch.heigvd.res.labs.roulette.data.Student;
 import ch.heigvd.res.labs.roulette.data.StudentsList;
@@ -35,7 +36,10 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
     String response = responseBuffer.toString().replace("\n", "").replace("\r", "");
     StudentsList list = JsonObjectMapper.parseJson(response, StudentsList.class);
     System.out.println("Liste retourné : " + list.getStudents());
-    return list.getStudents();
+    //if(list.getStudents().size() != 0)
+      return list.getStudents();
+    //else
+      //throw new EmptyStoreException();
   }
 
   @Override
